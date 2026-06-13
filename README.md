@@ -69,6 +69,11 @@ Note: `SKILL.md` references this knowledge base by **absolute path**. If you mov
 update that one path in `SKILL.md` (or repackage the KB + skill as a Claude Code plugin and use
 `${CLAUDE_PLUGIN_ROOT}`).
 
+**Building a whole site with it:** see
+[docs/building-an-award-winning-website.md](docs/building-an-award-winning-website.md) — the
+end-to-end playbook (brief → spec → scaffold + token bridge → build → motion → assets → verify →
+ship) that turns the four artifacts into a finished, award-grade site.
+
 ## How to update / iterate
 
 - **Re-verify versions quarterly** (or before any new project): refresh `_facts.md`
