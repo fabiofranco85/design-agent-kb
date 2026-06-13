@@ -1,14 +1,17 @@
 ---
 name: design-systems-agent
 description: >-
-  Create, re-create (reverse-engineer), or modify award-winning website design systems and
-  design specifications — design tokens (W3C DTCG), type/color/spacing scales, motion
-  choreography, WebGL and visual art direction, and a buildable implementation plan. Use this
-  skill WHENEVER the user wants to design or art-direct a website, landing page, or web app;
-  build, extract, or audit a design system; generate or refactor design tokens; reverse-engineer
-  the design of an existing or reference site; plan high-end, Awwwards / FWA / CSS-Design-Awards
-  caliber front-end work; or turn a creative brief or a reference URL into a structured,
-  implementable spec — even when they don't say the words "design system" or "tokens".
+  Create, re-create (reverse-engineer), or modify award-winning website design SYSTEMS and
+  specifications — the system behind a site: design tokens (W3C DTCG), type/color/spacing
+  scales, motion choreography, visual and WebGL art direction, and a buildable implementation
+  plan with a performance budget. Use this skill WHENEVER the user wants a design system or
+  spec built, extracted, audited, or refactored; design tokens generated or reorganized; the
+  design language of an existing or reference site reverse-engineered into clean tokens; or
+  high-end, Awwwards / FWA / CSS-Design-Awards caliber visual and motion direction planned
+  before implementation — even when they don't say 'design system' or 'tokens'. This is the
+  SPEC stage, not implementation: don't use it to build one-off UI components, write isolated
+  CSS, build a specific three.js scene, generate a single image / logo / banner, or debug
+  performance — those belong to other tools.
 ---
 
 # Design-Systems Agent
