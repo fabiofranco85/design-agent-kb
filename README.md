@@ -91,3 +91,8 @@ ship) that turns the four artifacts into a finished, award-grade site.
   cross-document is the open gap); (4) framework majors (Next/Astro/Nuxt move fast;
   Astro 7 was already in beta at verification time); (5) the DTCG spec (2025.10 is the
   first stable — expect successor TRs).
+
+## License
+
+Released under the [MIT License](LICENSE) — © 2026 Fabio Franco. Use, modify, and ship
+freely; attribution appreciated.
