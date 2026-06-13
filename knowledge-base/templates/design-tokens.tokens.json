@@ -1,0 +1,272 @@
+{
+  "$description": "TEMPLATE design-tokens.tokens.json — W3C DTCG Format Module 2025.10 (first stable version). A token is an object with required $value plus $type; alias syntax \"{group.token}\". The spec recommends file extensions .tokens / .tokens.json and the MIME type application/design-tokens+json. JSON has no comments, so ALL template guidance lives in $description strings and $extensions['agent.guidance'] objects: follow them, then rewrite each $description to document the project (never ship template instructions). Example values are the verified sample palette/scale from 05-color.md and 06-spacing.md — replace them with project values, keep the structure. Tiers: primitive (raw values) -> semantic (aliases primitives) -> component (aliases semantics); a raw value above the primitive tier is a defect. Themes: this file holds primitives + LIGHT semantic aliases + component aliases; emit design-tokens.dark.tokens.json re-targeting ONLY the semantic tier (identical token names, different alias targets). Validate: python3 -m json.tool design-tokens.tokens.json",
+  "$extensions": {
+    "agent.meta": {
+      "version": "1.0.0",
+      "mode": "<create | recreate | modify>",
+      "archetype": "<archetype-token>",
+      "personality": "<snappy | fluid | cinematic>",
+      "intensity": "<ambient | responsive | showcase>",
+      "generated": "<YYYY-MM-DD>",
+      "confidence": {
+        "archetype": "<high | medium | low>",
+        "typography": "<high | medium | low>",
+        "color": "<high | medium | low>",
+        "layout": "<high | medium | low>",
+        "spacing": "<high | medium | low>",
+        "imagery": "<high | medium | low>",
+        "motion": "<high | medium | low>",
+        "webgl-stack": "<high | medium | low>"
+      }
+    },
+    "agent.guidance": {
+      "template": "design-agent-kb/templates/design-tokens.tokens.json v1.0",
+      "schema": "10-modes-and-artifacts.md section 3 — DTCG 2025.10 rules, top-level group list, semver mapping, REQUIRED root agent.meta block",
+      "fillOrder": [
+        "0. agent.meta: REQUIRED root block (10-modes-and-artifacts.md section 3) — version is semver (create/recreate emit 1.0.0; modify bumps per the section-3 table); generated = ISO date of emission; the confidence map (8 dimensions, spec section 11) is recreate-only — DELETE it in create/modify",
+        "1. color primitives: build 11-step ramps (50-950) on the L anchors in 05-color.md; author in oklch, always emit the computed sRGB hex fallback; every 50-950 step must be sRGB-in-gamut",
+        "2. color semantics: alias primitives per the semantic map in 05-color.md; run the contrast gate (05-color.md Code Examples) on every pair, both themes, before sign-off",
+        "3. space: adopt the canonical scale verbatim (n = px / 4); fluid endpoints + viewportRange go in $extensions['agent.fluid'], the build step composes clamp() — clamp() strings are NOT representable as dimension $value",
+        "4. type + typography: fill the type.step.N primitives from the 04-typography.md fluid scale ($value = clamp max; min + viewportRange in $extensions['agent.fluid']), then the typography.* composites — their fontSize MUST alias {type.step.N} (10-modes-and-artifacts.md section 3); fluid clamp() is composed at build from the step metadata",
+        "5. motion: keep durations inside the four canonical classes (07-animation-choreography.md) and the personality slices (01-visual-motion.md); cubicBezier values come from the canonical easing table only",
+        "6. component tier: aliases of semantics only; one token per themable part",
+        "7. delete this agent.guidance block and all template-instruction $description text when done"
+      ],
+      "naming": "dot-paths via nesting; segments kebab-case; ramp steps are numeric strings; names must not contain . { } or start with $ (_conventions.md section 3.7)",
+      "cssTransform": "token path -> custom property: prefix -- and replace dots with hyphens, e.g. color.bg.primary -> --color-bg-primary (binding, 05/06)"
+    }
+  },
+  "color": {
+    "$description": "Rename 'blue' to the project brand hue name. Template shows 3 of the 11 ramp steps — fill 50-950 per 05-color.md L anchors. $type is set explicitly on every color token (no group inheritance), per 05-color.md.",
+    "blue": {
+      "400": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [0.7, 0.13, 250],
+          "alpha": 1,
+          "hex": "#5aa3ec"
+        },
+        "$description": "EXAMPLE step — dark-theme CTA fill in the sample system. Replace components + hex together (hex = computed sRGB fallback, never source of truth)."
+      },
+      "500": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [0.58, 0.15, 250],
+          "alpha": 1,
+          "hex": "#1f7dcf"
+        },
+        "$description": "EXAMPLE brand anchor (L 0.58). Keep chroma <= 0.9x the sRGB gamut max at this L/H."
+      },
+      "600": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [0.5, 0.135, 250],
+          "alpha": 1,
+          "hex": "#0f66ac"
+        },
+        "$description": "EXAMPLE step — light-theme CTA fill in the sample system."
+      },
+      "vivid": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [0.65, 0.2, 250],
+          "alpha": 1,
+          "hex": "#0f92f7"
+        },
+        "$description": "OPTIONAL P3-only accent: may exceed sRGB gamut, MUST keep an sRGB-safe hex fallback and ship via the @media (color-gamut: p3) chroma-only override (05-color.md). Delete if unused.",
+        "$extensions": {
+          "agent.gamut": { "srgbSafeBase": [0.65, 0.18, 250], "p3Boost": [0.65, 0.2, 250] }
+        }
+      }
+    },
+    "neutral": {
+      "0": {
+        "$type": "color",
+        "$value": { "colorSpace": "oklch", "components": [1, 0, 0], "alpha": 1, "hex": "#ffffff" },
+        "$description": "Pure white — step 0 exists only on the neutral ramp."
+      },
+      "50": {
+        "$type": "color",
+        "$value": { "colorSpace": "oklch", "components": [0.985, 0.003, 250], "alpha": 1, "hex": "#f9fafc" },
+        "$description": "EXAMPLE — neutrals carry a hue tint toward the brand hue (C 0.003-0.015) for cohesion."
+      },
+      "900": {
+        "$type": "color",
+        "$value": { "colorSpace": "oklch", "components": [0.23, 0.008, 250], "alpha": 1, "hex": "#1a1d21" },
+        "$description": "EXAMPLE — light-theme body text."
+      },
+      "950": {
+        "$type": "color",
+        "$value": { "colorSpace": "oklch", "components": [0.15, 0.006, 250], "alpha": 1, "hex": "#090b0e" },
+        "$description": "EXAMPLE — dark-theme page background. Never pure #000 (halation; 05-color.md Anti-Patterns)."
+      }
+    },
+    "bg": {
+      "$description": "SEMANTIC tier — light-theme aliases only in this file; dark re-targets in design-tokens.dark.tokens.json. Complete the set per the 05-color.md semantic map (bg.secondary, bg.elevated, bg.brand-hover, ...).",
+      "primary": { "$type": "color", "$value": "{color.neutral.0}" },
+      "brand": { "$type": "color", "$value": "{color.blue.600}" }
+    },
+    "text": {
+      "primary": { "$type": "color", "$value": "{color.neutral.900}" },
+      "on-brand": { "$type": "color", "$value": "{color.neutral.0}" }
+    },
+    "border": {
+      "focus": {
+        "$type": "color",
+        "$value": "{color.blue.500}",
+        "$description": "Focus ring — must verify >= 3:1 against every background it appears on."
+      }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "$description": "Canonical scale (owner: 06-spacing.md; pinned in _conventions.md section 3.5). n = px / 4; base 8px with 4px half-steps below 16. Adopt verbatim; extend only with integer n. $value is an object {value, unit}; units px|rem only; unit required even at 0.",
+    "1": { "$value": { "value": 4, "unit": "px" } },
+    "2": { "$value": { "value": 8, "unit": "px" } },
+    "3": { "$value": { "value": 12, "unit": "px" } },
+    "4": { "$value": { "value": 16, "unit": "px" } },
+    "6": { "$value": { "value": 24, "unit": "px" } },
+    "8": { "$value": { "value": 32, "unit": "px" } },
+    "12": { "$value": { "value": 48, "unit": "px" } },
+    "16": { "$value": { "value": 64, "unit": "px" } },
+    "24": { "$value": { "value": 96, "unit": "px" } },
+    "32": { "$value": { "value": 128, "unit": "px" } },
+    "rhythm": {
+      "$value": "{space.6}",
+      "$description": "1 rhythm unit = body line box (16px x 1.5 = 24px). Recompute if the body size changes (06-spacing.md Mode-Specific Guidance)."
+    },
+    "gutter": {
+      "$value": "{space.4}",
+      "$description": "Fluid 16->32px. Endpoints are tokens; the build composes clamp() from $extensions — clamp() is not a valid dimension $value.",
+      "$extensions": { "agent.fluid": { "max": "{space.8}", "viewportRange": [640, 1920] } }
+    },
+    "margin": {
+      "$value": "{space.6}",
+      "$description": "Fluid outer margin 24->96px (06-spacing.md canonical recipe).",
+      "$extensions": { "agent.fluid": { "max": "{space.24}", "viewportRange": [800, 2000] } }
+    },
+    "section": {
+      "$value": "{space.16}",
+      "$description": "Fluid section padding 64->128px (06-spacing.md canonical recipe).",
+      "$extensions": { "agent.fluid": { "max": "{space.32}", "viewportRange": [800, 1600] } }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "$description": "Replace with project faces (licenses recorded in design-system-spec.md section 2). Array = stack with fallbacks.",
+      "display": { "$value": ["Example Display", "system-ui", "sans-serif"] },
+      "body": { "$value": ["Example Sans", "system-ui", "sans-serif"] }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "bold": { "$value": 700 }
+    }
+  },
+  "type": {
+    "$description": "PRIMITIVE fluid type scale (owner: 04-typography.md section 4.2; emitted as --step-N custom properties). Template shows steps 0 and 6 — fill 0-6 per the project ratio. $value = the clamp() MAX (px at the wide anchor); fluid min + viewport range live in $extensions['agent.fluid'] and the build composes clamp() (clamp() strings are NOT representable as dimension $value). typography.* composites alias these steps — never restate sizes there (10-modes-and-artifacts.md section 3).",
+    "step": {
+      "$type": "dimension",
+      "0": {
+        "$value": { "value": 18, "unit": "px" },
+        "$description": "EXAMPLE body step, doc-04 reference scale (16->18px at 320->1280). min is the 16px body floor (_conventions.md section 3.6) — never lower.",
+        "$extensions": { "agent.fluid": { "min": { "value": 16, "unit": "px" }, "viewportRange": [320, 1280] } }
+      },
+      "6": {
+        "$value": { "value": 69, "unit": "px" },
+        "$description": "EXAMPLE display step, doc-04 reference scale (48->69px at 320->1280); max/min per step <= 2.5x (04-typography.md).",
+        "$extensions": { "agent.fluid": { "min": { "value": 48, "unit": "px" }, "viewportRange": [320, 1280] } }
+      }
+    }
+  },
+  "typography": {
+    "$description": "COMPOSITE role tokens ($type typography), e.g. typography.display/h1/h2/body. Sub-values: fontFamily, fontSize (MUST alias a {type.step.N} primitive — contract: 10-modes-and-artifacts.md section 3), fontWeight, letterSpacing (DTCG dimension is px|rem only; the authoritative em factor per 04-typography.md lives in $extensions['agent.tracking'] and the stored px = em x the step MAX, recomputed at build across the fluid range), lineHeight (unitless multiplier).",
+    "display": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.display}",
+        "fontSize": "{type.step.6}",
+        "fontWeight": "{font.weight.bold}",
+        "letterSpacing": { "value": -1.38, "unit": "px" },
+        "lineHeight": 1.1
+      },
+      "$description": "Hero display role. fontSize aliases the type.step primitive (fluid metadata lives on the step, recipes: 04-typography.md). letterSpacing: doc-04 display band is -0.02 to -0.03em; -0.02em x 69px (step max) = -1.38px; em factor in agent.tracking.",
+      "$extensions": {
+        "agent.tracking": { "em": -0.02 }
+      }
+    },
+    "body": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{font.family.body}",
+        "fontSize": "{type.step.0}",
+        "fontWeight": "{font.weight.regular}",
+        "letterSpacing": { "value": 0, "unit": "px" },
+        "lineHeight": 1.5
+      },
+      "$description": "Body role. Floor is 16px (_conventions.md section 3.6), enforced by the type.step.0 fluid min. lineHeight stays unitless (04/06: no fixed-px line-height).",
+      "$extensions": {
+        "agent.tracking": { "em": 0 }
+      }
+    }
+  },
+  "motion": {
+    "$description": "Durations must sit inside the four canonical classes (07-animation-choreography.md) AND the personality slice matrix (01-visual-motion.md). Example values = the 'fluid' personality slices; re-slice for snappy/cinematic.",
+    "duration": {
+      "$type": "duration",
+      "micro": {
+        "$value": { "value": 160, "unit": "ms" },
+        "$description": "micro-interaction class 100-200ms; fluid slice 140-180ms."
+      },
+      "ui": {
+        "$value": { "value": 350, "unit": "ms" },
+        "$description": "UI transition class 200-400ms; nothing UI-blocking may exceed 400ms."
+      },
+      "reveal": {
+        "$value": { "value": 600, "unit": "ms" },
+        "$description": "content/section reveal class 400-700ms."
+      },
+      "hero": {
+        "$value": { "value": 800, "unit": "ms" },
+        "$description": "hero/cinematic class 600-1200ms; >1200ms must be skippable or scrub-driven."
+      }
+    },
+    "ease": {
+      "$type": "cubicBezier",
+      "$description": "CSS approximations of the pinned GSAP eases — values ONLY from the canonical table in 07-animation-choreography.md (GSAP names stay canonical in JS via CustomEase).",
+      "out": {
+        "$value": [0.165, 0.84, 0.44, 1],
+        "$description": "power3.out — fluid primary entrance ease. Swap per personality (snappy: expo.out [0.19, 1, 0.22, 1])."
+      },
+      "in-out": {
+        "$value": [0.645, 0.045, 0.355, 1],
+        "$description": "power2.inOut — relocations / shared-element morphs."
+      },
+      "accent": {
+        "$value": [0.34, 1.56, 0.64, 1],
+        "$description": "back.out(1.7) — playful pops/toasts only (~10% overshoot)."
+      }
+    }
+  },
+  "button": {
+    "$description": "COMPONENT tier — aliases of semantics only (raw values here are a defect).",
+    "bg": { "$type": "color", "$value": "{color.bg.brand}" },
+    "text": { "$type": "color", "$value": "{color.text.on-brand}" },
+    "border-focus": { "$type": "color", "$value": "{color.border.focus}" },
+    "padding-x": { "$type": "dimension", "$value": "{space.4}" },
+    "padding-y": { "$type": "dimension", "$value": "{space.2}" }
+  },
+  "card": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.bg.primary}",
+      "$description": "Re-point to {color.bg.elevated} once the full semantic set is filled in."
+    },
+    "padding": { "$type": "dimension", "$value": "{space.6}" }
+  }
+}

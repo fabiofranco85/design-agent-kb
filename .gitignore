@@ -1,0 +1,9 @@
+# Session / tooling scratch
+.remember/
+.claude/settings.local.json
+
+# OS
+.DS_Store
+
+# Node (for any site builds done in subdirectories later)
+node_modules/
