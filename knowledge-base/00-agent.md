@@ -89,5 +89,15 @@ before declaring that domain done.
 | Motion spec | [templates/motion-spec.md](./templates/motion-spec.md) |
 | Implementation plan | [templates/implementation-plan.md](./templates/implementation-plan.md) |
 
+### Output location & template hygiene
+
+- Write the filled artifacts into the **target project** (default `./design/`), not into this
+  knowledge base.
+- The files in `templates/` are read-only stencils shared across every project — **fill a copy,
+  never edit them in place.**
+- Templates carry `<!-- … -->` guidance comments and `../NN-*.md` references back into this KB;
+  **strip them when finalizing** an artifact so the delivered file has no dead links or leftover
+  scaffolding.
+
 A task is incomplete until the artifacts its mode requires (doc 10 §1) exist and pass
 their schema checks.

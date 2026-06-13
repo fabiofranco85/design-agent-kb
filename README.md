@@ -49,6 +49,26 @@ This is not a website. It is the agent's brain.
 5. **Phase 4 — hub:** `00-agent.md` was written last, against the final reviewed spokes,
    then independently validated.
 
+## Use as a Claude Code skill
+
+A thin wrapper skill lives at `.claude/skills/design-systems-agent/SKILL.md`. It loads the hub
+on demand and operates as the agent, so you invoke the whole system by describing a design task
+instead of pasting a "read the hub" prompt.
+
+- **Project-local (this repo):** already active — Claude Code discovers `.claude/skills/`.
+- **Global (any project):** symlink it into your personal skills dir:
+  ```bash
+  ln -s "$PWD/.claude/skills/design-systems-agent" ~/.claude/skills/design-systems-agent
+  ```
+- **Invoke:** describe the work — e.g. *"design a system for a furniture studio portfolio,
+  cinematic motion, no WebGL."* Pick a mode: `create`, `recreate` (from a URL), or `modify`.
+- **Output:** four artifacts written to your project's `./design/` — design-system spec, DTCG
+  tokens, motion spec, implementation plan. Build the site from those (stage two).
+
+Note: `SKILL.md` references this knowledge base by **absolute path**. If you move the repo,
+update that one path in `SKILL.md` (or repackage the KB + skill as a Claude Code plugin and use
+`${CLAUDE_PLUGIN_ROOT}`).
+
 ## How to update / iterate
 
 - **Re-verify versions quarterly** (or before any new project): refresh `_facts.md`
