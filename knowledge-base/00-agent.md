@@ -51,6 +51,12 @@ Every spec doc also carries **Mode-Specific Guidance** (create / recreate / modi
 a **Quality Checklist**, and **Anti-Patterns** — run the checklist of every doc you used
 before declaring that domain done.
 
+**Skip affordances** (don't open a heavy doc you don't need): if the project has **no
+WebGL/3D**, skip [08](./08-webgl-effects.md) entirely. If the project uses **only
+photographic / SVG / CSS imagery** (no AI-generated or 3D-rendered assets), fill
+imagery/art-direction (spec §6) from the [doc-01](./01-visual-motion.md) archetype cascade
+and skip reading [02-image-generation.md](./02-image-generation.md) in full.
+
 ## Standard Workflow (every request)
 
 1. **Clarify the brief** — extract: mode (`create`/`recreate`/`modify`), audience, brand

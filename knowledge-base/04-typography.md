@@ -129,6 +129,12 @@ Rules:
 
 - Line-height is always **unitless** (multiplier), letter-spacing always in **em**
   (scales with size). 45–75 characters per line is the comfortable screen measure.
+- **Tracking tokens are static per role, not fluidly recomputed.** Store each role's
+  tracking once as the em amount (a DTCG `number` token, `tracking.{role}`) and apply it
+  as `letter-spacing: <n>em`. Because `em` scales with the role's own `font-size`, the
+  single stored value is correct at every viewport — there is no per-breakpoint px
+  recompute and no build step involved. `typography.*` composites alias `{tracking.role}`;
+  never store tracking as a px value derived from a step's max size.
 - **WCAG 1.4.12 Text Spacing (AA):** the layout must not break when a user overrides to
   line-height 1.5×, paragraph spacing 2×, letter-spacing 0.12 em, word-spacing 0.16 em.
   Never use fixed-height text containers; test with a text-spacing bookmarklet.
@@ -338,7 +344,9 @@ char-split wraps; `reduceWhiteSpace` default `true`.
    [doc 06](./06-spacing.md#specifications--parameters) token conventions).
 2. Choose families with §4.5 heuristics; prefer one variable font when ≥ 3 weights.
 3. Write the loading plan (§4.6) before any layout work — fonts are render-critical.
-4. Spec line-height/tracking per role from the §4.3 table into the tokens.
+4. Spec line-height/tracking per role from the §4.3 table into the tokens — tracking as
+   static `tracking.{role}` em `number` tokens (per the §4.3 static-tracking rule), aliased
+   by the `typography.*` composites; never a build-recomputed px value.
 
 ### Re-create from existing site (reverse-engineering)
 1. In DevTools, read `getComputedStyle(el).fontSize` for h1…h6/body at 320, 768, 1440 px

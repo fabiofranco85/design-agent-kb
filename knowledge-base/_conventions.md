@@ -134,6 +134,10 @@ Golden = **1.618**. Default recommendation: 1.2–1.333 for UI; body floor **16 
 ### 3.7 Design-token naming (owner: doc 05 for color; doc 06 for dimension)
 
 - Format: W3C DTCG (`$type` / `$value`), file extension `.tokens.json`.
+- **Canonical version string (use verbatim; do not re-phrase):** long form
+  **"W3C Design Tokens (DTCG) Format Module 2025.10"**, short form **"DTCG 2025.10"**.
+  Use the long form in artifact `$description` fields; the short form inline in prose
+  (version facts: `_facts.md` §3).
 - Three tiers: **primitive** (`color.blue.500`, `space.4`) → **semantic**
   (`color.bg.primary`, `color.text.primary`, `space.section`) → **component**
   (`button.bg`, `card.padding`).

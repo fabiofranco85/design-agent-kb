@@ -234,7 +234,10 @@ Baseline Newly available May 2024 — acceptable when the support matrix in
 [09-tech-implementation](./09-tech-implementation.md#specifications--parameters) allows).
 Token storage: the main `design-tokens.tokens.json` holds primitives + light semantic
 aliases + component aliases; `design-tokens.dark.tokens.json` re-targets **only** the
-semantic tier (identical token names, different alias targets).
+semantic tier (identical token names, different alias targets). IF the system defines
+both light and dark themes, `design-tokens.dark.tokens.json` is a **REQUIRED** companion
+artifact; IF it is single-theme, the dark file is **omitted**
+([doc 10 §1](./10-modes-and-artifacts.md#specifications--parameters)).
 
 ## Recommended Libraries & Tools
 

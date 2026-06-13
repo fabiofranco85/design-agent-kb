@@ -76,10 +76,13 @@ Escalations and edge cases:
 | `motion-spec.md` | [./templates/motion-spec.md](./templates/motion-spec.md) | Markdown | docs 01, 07 |
 | `implementation-plan.md` | [./templates/implementation-plan.md](./templates/implementation-plan.md) | Markdown | docs 08, 09 |
 
-Companion file (when theming): `design-tokens.dark.tokens.json` — semantic tier only,
-same token names ([doc 05](./05-color.md#specifications--parameters) owns its rules).
-All four artifacts are emitted in EVERY mode; in `modify`, unchanged artifacts are
-re-emitted with an unchanged version and a changelog entry "no change".
+Companion artifact (conditional): `design-tokens.dark.tokens.json` — semantic-tier
+overrides only, identical token names ([doc 05](./05-color.md#specifications--parameters)
+owns its rules). IF the system defines BOTH a light and a dark theme, this dark companion
+is a **REQUIRED** fifth artifact; IF the system is single-theme (light-only or dark-only),
+it is **omitted**. The four core artifacts above are emitted in EVERY mode; in `modify`,
+unchanged artifacts are re-emitted with an unchanged version and a changelog entry
+"no change".
 
 ### 2. `design-system-spec.md` — section schema (exact, ordered)
 
@@ -152,6 +155,8 @@ re-emitted with an unchanged version and a changelog entry "no change".
   `$extensions`): root-group `$extensions["agent.meta"]` with REQUIRED keys
   `version` (semver string), `mode`, `archetype`, `personality`, `intensity`,
   `generated` (ISO date), and — in `recreate` — `confidence` (the §2.11 per-dimension
+  map). The `confidence` map under `$extensions["agent.meta"]` is **RECREATE-ONLY**: in
+  `create` and `modify` modes, omit the entire `confidence` block (do not emit an empty
   map). The spec recommends reverse-domain extension keys; this KB standardizes on the
   `agent.*` namespace already used by doc 06 (`agent.fluid`).
 
@@ -330,8 +335,12 @@ Durations above sit in the `fluid` slices (UI 300–400 ms, reveal 450–650 ms)
    `motion-spec.md` (§4 schema) + the spec §8 summary, fill the Choreography Inventory
    as patterns are designed.
 7. **Optional WebGL.** Only via the [doc 08 Decision Framework](./08-webgl-effects.md#decision-framework);
-   record the rung + ruled-out lighter rungs in `implementation-plan.md` §1; imagery
-   direction per [doc 02](./02-image-generation.md#mode-specific-guidance) (spec §6).
+   record the rung + ruled-out lighter rungs in `implementation-plan.md` §1; skip
+   [doc 08](./08-webgl-effects.md) entirely if there is no WebGL/3D. Imagery direction per
+   [doc 02](./02-image-generation.md#mode-specific-guidance) (spec §6) — but if the project
+   uses only photographic / SVG / CSS imagery (no AI-generated or 3D-rendered assets), fill
+   spec §6 from the [doc-01](./01-visual-motion.md#specifications--parameters) archetype
+   cascade and skip reading `02-image-generation.md` in full.
 8. **Implementation plan.** Stack, budgets, phases, pipeline, gates per
    [doc 09](./09-tech-implementation.md#mode-specific-guidance) → emit
    `implementation-plan.md` (§5 schema). Engagement is done when the §Quality Checklist

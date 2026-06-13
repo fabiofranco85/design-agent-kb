@@ -1,5 +1,5 @@
 {
-  "$description": "TEMPLATE design-tokens.tokens.json — W3C DTCG Format Module 2025.10 (first stable version). A token is an object with required $value plus $type; alias syntax \"{group.token}\". The spec recommends file extensions .tokens / .tokens.json and the MIME type application/design-tokens+json. JSON has no comments, so ALL template guidance lives in $description strings and $extensions['agent.guidance'] objects: follow them, then rewrite each $description to document the project (never ship template instructions). Example values are the verified sample palette/scale from 05-color.md and 06-spacing.md — replace them with project values, keep the structure. Tiers: primitive (raw values) -> semantic (aliases primitives) -> component (aliases semantics); a raw value above the primitive tier is a defect. Themes: this file holds primitives + LIGHT semantic aliases + component aliases; emit design-tokens.dark.tokens.json re-targeting ONLY the semantic tier (identical token names, different alias targets). Validate: python3 -m json.tool design-tokens.tokens.json",
+  "$description": "TEMPLATE design-tokens.tokens.json — W3C Design Tokens (DTCG) Format Module 2025.10. A token is an object with required $value plus $type; alias syntax \"{group.token}\". The spec recommends file extensions .tokens / .tokens.json and the MIME type application/design-tokens+json. JSON has no comments, so ALL template guidance lives in $description strings and $extensions['agent.guidance'] objects: follow them, then rewrite each $description to document the project (never ship template instructions). Example values are the verified sample palette/scale from 05-color.md and 06-spacing.md — replace them with project values, keep the structure. Tiers: primitive (raw values) -> semantic (aliases primitives) -> component (aliases semantics); a raw value above the primitive tier is a defect. Themes: this file holds primitives + LIGHT semantic aliases + component aliases; emit design-tokens.dark.tokens.json re-targeting ONLY the semantic tier (identical token names, different alias targets). Validate: python3 -m json.tool design-tokens.tokens.json",
   "$extensions": {
     "agent.meta": {
       "version": "1.0.0",
@@ -185,20 +185,17 @@
     }
   },
   "typography": {
-    "$description": "COMPOSITE role tokens ($type typography), e.g. typography.display/h1/h2/body. Sub-values: fontFamily, fontSize (MUST alias a {type.step.N} primitive — contract: 10-modes-and-artifacts.md section 3), fontWeight, letterSpacing (DTCG dimension is px|rem only; the authoritative em factor per 04-typography.md lives in $extensions['agent.tracking'] and the stored px = em x the step MAX, recomputed at build across the fluid range), lineHeight (unitless multiplier).",
+    "$description": "COMPOSITE role tokens ($type typography), e.g. typography.display/h1/h2/body. Sub-values: fontFamily, fontSize (MUST alias a {type.step.N} primitive — contract: 10-modes-and-artifacts.md section 3), fontWeight, letterSpacing, lineHeight (unitless multiplier). letterSpacing/tracking is a STATIC per-role value carrying the em amount as a DTCG number token (apply as letter-spacing: <n>em; em scales with each role's font-size natively, so it is correct at every viewport — no per-breakpoint recompute, no build step). em bands per role: 04-typography.md section 4.3.",
     "display": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.family.display}",
         "fontSize": "{type.step.6}",
         "fontWeight": "{font.weight.bold}",
-        "letterSpacing": { "value": -1.38, "unit": "px" },
+        "letterSpacing": "{tracking.display}",
         "lineHeight": 1.1
       },
-      "$description": "Hero display role. fontSize aliases the type.step primitive (fluid metadata lives on the step, recipes: 04-typography.md). letterSpacing: doc-04 display band is -0.02 to -0.03em; -0.02em x 69px (step max) = -1.38px; em factor in agent.tracking.",
-      "$extensions": {
-        "agent.tracking": { "em": -0.02 }
-      }
+      "$description": "Hero display role. fontSize aliases the type.step primitive (fluid metadata lives on the step, recipes: 04-typography.md). letterSpacing aliases the static tracking.display number token (em); doc-04 display band is -0.02 to -0.03em."
     },
     "body": {
       "$type": "typography",
@@ -206,13 +203,22 @@
         "fontFamily": "{font.family.body}",
         "fontSize": "{type.step.0}",
         "fontWeight": "{font.weight.regular}",
-        "letterSpacing": { "value": 0, "unit": "px" },
+        "letterSpacing": "{tracking.body}",
         "lineHeight": 1.5
       },
-      "$description": "Body role. Floor is 16px (_conventions.md section 3.6), enforced by the type.step.0 fluid min. lineHeight stays unitless (04/06: no fixed-px line-height).",
-      "$extensions": {
-        "agent.tracking": { "em": 0 }
-      }
+      "$description": "Body role. Floor is 16px (_conventions.md section 3.6), enforced by the type.step.0 fluid min. letterSpacing aliases tracking.body (0em). lineHeight stays unitless (04/06: no fixed-px line-height)."
+    }
+  },
+  "tracking": {
+    "$type": "number",
+    "$description": "Per-role tracking, STATIC, owned by 04-typography.md section 4.3. Each $value is the em amount — apply as letter-spacing: <n>em. em scales with each role's font-size natively, so the stored value is honest at EVERY viewport; there is no build-time recompute and no fluid range. (DTCG number token: unitless scalar; the em unit is fixed by this convention and stated here.) Fill one token per typography.* role; bands: display -0.02 to -0.03, headline -0.01 to -0.02, subhead 0 to -0.01, body 0, caption +0.01, all-caps +0.05 to +0.10, button 0 to +0.02.",
+    "display": {
+      "$value": -0.02,
+      "$description": "Tracking in em — apply as letter-spacing: -0.02em (em scales with font-size, so it is correct at every viewport). Display band -0.02 to -0.03em (04-typography.md section 4.3)."
+    },
+    "body": {
+      "$value": 0,
+      "$description": "Tracking in em — apply as letter-spacing: 0em. Body tracking is 0 (04-typography.md section 4.3)."
     }
   },
   "motion": {
