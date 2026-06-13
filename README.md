@@ -1,5 +1,7 @@
 # Design-System Agent — Knowledge Base
 
+[![validate-kb](https://github.com/fabiofranco85/design-agent-kb/actions/workflows/validate.yml/badge.svg)](https://github.com/fabiofranco85/design-agent-kb/actions/workflows/validate.yml)
+
 A multi-document Markdown knowledge base that serves as the **permanent instruction set
 for a specialized AI agent** whose job is to CREATE from scratch, RE-CREATE from a live
 website, or MODIFY website design systems and specifications at award-winning caliber
