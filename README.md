@@ -7,6 +7,19 @@ website, or MODIFY website design systems and specifications at award-winning ca
 
 This is not a website. It is the agent's brain.
 
+## Visual archetypes
+
+The system targets six visual archetypes — you pick one as the "leaning" in your brief, and it
+cascades into the type/color/spacing/motion specs. Full gallery (two rendered variants each, with
+"choose for" guidance) in **[docs/archetypes/](docs/archetypes/)**.
+
+| | | |
+|:--:|:--:|:--:|
+| [![brutalist-editorial](docs/archetypes/previews/brutalist-editorial-1.png)](docs/archetypes/README.md#brutalist-editorial) | [![immersive-3d](docs/archetypes/previews/immersive-3d-1.png)](docs/archetypes/README.md#immersive-3d) | [![kinetic-minimal](docs/archetypes/previews/kinetic-minimal-1.png)](docs/archetypes/README.md#kinetic-minimal) |
+| **brutalist-editorial** | **immersive-3d** | **kinetic-minimal** |
+| [![retro-futurist](docs/archetypes/previews/retro-futurist-1.png)](docs/archetypes/README.md#retro-futurist) | [![soft-organic](docs/archetypes/previews/soft-organic-1.png)](docs/archetypes/README.md#soft-organic) | [![luxe-cinematic](docs/archetypes/previews/luxe-cinematic-1.png)](docs/archetypes/README.md#luxe-cinematic) |
+| **retro-futurist** | **soft-organic** | **luxe-cinematic** |
+
 ## Hub-and-spoke model
 
 - **[knowledge-base/00-agent.md](knowledge-base/00-agent.md)** is the hub — the agent's

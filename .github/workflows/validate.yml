@@ -1,0 +1,19 @@
+name: validate-kb
+
+# Enforce the knowledge-base conventions on every PR and on pushes to main:
+# internal links/anchors resolve, line limits hold, the shared doc template is
+# intact, the DTCG token file parses with all aliases resolving, and the skill
+# frontmatter is spec-valid.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate knowledge base, skill, and templates
+        run: python3 scripts/validate_kb.py
