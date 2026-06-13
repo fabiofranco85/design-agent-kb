@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>THE MARGIN — Culture Quarterly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E0E0E;
+    --paper:#FAFAF7;
+    --accent:#1F4BFF;        /* electric editorial blue */
+    --hair:rgba(250,250,247,.18);
+    --hairink:rgba(14,14,14,.16);
+    --grotesk:"Space Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#555;}
+  /* INVERTED palette: near-black ground, off-white ink */
+  .frame{
+    position:relative;width:1280px;height:800px;overflow:hidden;
+    background:var(--ink);color:var(--paper);
+    font-family:var(--grotesk);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── Masthead ── */
+  .masthead{position:relative;z-index:5;display:flex;align-items:stretch;
+    height:70px;border-bottom:2px solid var(--paper);}
+  .masthead .logo{display:flex;flex-direction:column;justify-content:center;
+    padding:0 28px 0 48px;border-right:2px solid var(--paper);}
+  .masthead .logo .name{font-family:var(--grotesk);font-weight:700;
+    font-size:25px;letter-spacing:-.03em;line-height:1;}
+  .masthead .logo .sub{font-family:var(--mono);font-size:9px;
+    letter-spacing:.22em;margin-top:4px;color:var(--accent);}
+  .masthead nav{display:flex;align-items:center;flex:1;}
+  .masthead nav a{font-family:var(--mono);font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;color:var(--paper);
+    text-decoration:none;padding:0 20px;height:100%;display:flex;
+    align-items:center;border-right:1px solid var(--hair);}
+  .masthead nav a.fill{flex:1;border-right:1px solid var(--hair);}
+  .masthead .issue{display:flex;align-items:center;font-family:var(--mono);
+    font-size:11px;font-weight:700;letter-spacing:.05em;
+    background:var(--accent);color:var(--paper);padding:0 28px;
+    text-transform:uppercase;}
+
+  /* ── Layout split: feature left, index right ── */
+  .body{position:relative;z-index:5;display:grid;
+    grid-template-columns:1fr 320px;height:calc(800px - 70px - 40px);}
+
+  .feature{position:relative;border-right:2px solid var(--paper);
+    padding:34px 40px 0 48px;display:flex;flex-direction:column;}
+
+  /* dateline row */
+  .dateline{display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;border-bottom:1px solid var(--hair);
+    padding-bottom:12px;}
+  .dateline .tag{background:var(--paper);color:var(--ink);
+    padding:3px 9px;font-weight:700;}
+
+  .kicker{font-family:var(--mono);font-size:12px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.12em;color:var(--accent);
+    margin:30px 0 12px;display:flex;align-items:center;gap:12px;}
+  .kicker::before{content:"";width:34px;height:2px;background:var(--accent);
+    display:inline-block;}
+
+  .headline{font-family:var(--grotesk);font-weight:700;
+    font-size:clamp(80px,9vw,124px);line-height:.9;letter-spacing:-.03em;
+    text-transform:uppercase;margin:0;}
+  .headline .l{display:block;position:relative;}
+  .headline em{font-style:italic;color:var(--accent);font-weight:500;}
+  /* ghost stagger reveal */
+  .headline .l.g::before{content:attr(data-l);position:absolute;
+    left:3px;top:5px;color:transparent;-webkit-text-stroke:1px rgba(250,250,247,.2);
+    z-index:-1;}
+
+  .standfirst{font-family:var(--grotesk);font-weight:400;font-size:17px;
+    line-height:1.42;max-width:46ch;margin-top:26px;color:rgba(250,250,247,.86);}
+  .standfirst b{color:var(--paper);font-weight:700;}
+
+  .feature-foot{margin-top:auto;display:flex;align-items:flex-end;
+    justify-content:space-between;border-top:1px solid var(--hair);
+    padding-top:18px;}
+  .byline{font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+    line-height:1.7;}
+  .byline .nm{color:var(--accent);font-weight:700;}
+  .read-cta{display:inline-flex;align-items:center;gap:14px;
+    background:var(--paper);color:var(--ink);text-decoration:none;
+    font-family:var(--mono);font-size:13px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;padding:15px 20px;
+    border:2px solid var(--paper);}
+  .read-cta .n{background:var(--accent);color:var(--paper);
+    padding:2px 7px;font-size:11px;}
+
+  /* ── Right index rail ── */
+  .rail{display:flex;flex-direction:column;}
+  .rail .rh{font-family:var(--mono);font-size:10.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;padding:14px 22px;
+    border-bottom:1px solid var(--hair);display:flex;
+    justify-content:space-between;color:rgba(250,250,247,.6);}
+  .rail .item{padding:15px 22px;border-bottom:1px solid var(--hair);
+    display:block;text-decoration:none;color:var(--paper);position:relative;}
+  .rail .item .no{font-family:var(--mono);font-size:10px;color:var(--accent);
+    font-weight:700;letter-spacing:.06em;}
+  .rail .item .t{font-family:var(--grotesk);font-weight:700;font-size:18px;
+    line-height:1.05;letter-spacing:-.02em;margin-top:7px;
+    text-transform:uppercase;}
+  .rail .item .c{font-family:var(--mono);font-size:9.5px;
+    color:rgba(250,250,247,.5);letter-spacing:.04em;margin-top:6px;
+    text-transform:uppercase;}
+  .rail .item.feat{background:var(--accent);}
+  .rail .item.feat .no,.rail .item.feat .c{color:rgba(250,250,247,.85);}
+  .rail .promo{margin-top:auto;background:var(--paper);color:var(--ink);
+    padding:18px 22px;}
+  .rail .promo .pk{font-family:var(--mono);font-size:9.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--accent);}
+  .rail .promo .pt{font-family:var(--grotesk);font-weight:700;font-size:20px;
+    line-height:1.04;letter-spacing:-.02em;margin-top:8px;
+    text-transform:uppercase;}
+
+  /* exposed column markers behind feature */
+  .colmark{position:absolute;inset:0;z-index:1;pointer-events:none;
+    display:grid;grid-template-columns:repeat(6,1fr);}
+  .colmark span{border-left:1px solid var(--hair);}
+  .colmark span:first-child{border-left:0;}
+
+  /* big folio number, asymmetric */
+  .folio{position:absolute;right:34px;top:150px;z-index:0;
+    font-family:var(--grotesk);font-weight:700;font-size:240px;
+    line-height:1;color:transparent;-webkit-text-stroke:2px rgba(250,250,247,.07);
+    letter-spacing:-.05em;}
+
+  /* ── Bottom marquee/ticker (motion artifact) ── */
+  .ticker{position:absolute;left:0;right:0;bottom:0;z-index:6;height:40px;
+    background:var(--accent);color:var(--paper);overflow:hidden;
+    display:flex;align-items:center;border-top:2px solid var(--paper);}
+  .ticker .track{display:flex;white-space:nowrap;font-family:var(--mono);
+    font-weight:700;font-size:12px;text-transform:uppercase;
+    letter-spacing:.06em;}
+  .ticker .track span{padding:0 22px;}
+  .ticker .track .b{opacity:.55;}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="logo">
+      <span class="name">THE MARGIN</span>
+      <span class="sub">CULTURE · QUARTERLY</span>
+    </div>
+    <nav>
+      <a href="#">Essays</a>
+      <a href="#">Interviews</a>
+      <a href="#">Visual</a>
+      <a href="#">Archive</a>
+      <a class="fill"></a>
+      <a href="#">Subscribe</a>
+    </nav>
+    <div class="issue">No. 14 — Winter</div>
+  </header>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- FEATURE -->
+    <article class="feature">
+      <div class="colmark"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="folio">14</div>
+
+      <div class="dateline">
+        <span>Vol. 04 / Issue 14 / Winter 2026</span>
+        <span class="tag">COVER STORY</span>
+      </div>
+
+      <div class="kicker">The Attention Issue</div>
+
+      <h1 class="headline">
+        <span class="l g" data-l="NOISE">NOISE</span>
+        <span class="l g" data-l="IS THE">IS THE</span>
+        <span class="l">NEW <em>silence</em></span>
+      </h1>
+
+      <p class="standfirst">Inside the economy of the overwhelmed: how a generation raised on the feed learned to <b>mistake volume for meaning</b> — and what the quiet ones are building in the wreckage.</p>
+
+      <div class="feature-foot">
+        <div class="byline">
+          WORDS — <span class="nm">ADA OKONKWO</span><br>
+          PHOTO — STUDIO HÄLL<br>
+          12 MIN READ
+        </div>
+        <a class="read-cta" href="#">Read the Feature<span class="n">→</span></a>
+      </div>
+    </article>
+
+    <!-- RAIL -->
+    <aside class="rail">
+      <div class="rh"><span>In This Issue</span><span>14 / 32</span></div>
+
+      <a class="item feat" href="#">
+        <span class="no">02 — INTERVIEW</span>
+        <div class="t">The Last Print Shop in Lisbon</div>
+        <div class="c">Letterpress / 8 min</div>
+      </a>
+
+      <a class="item" href="#">
+        <span class="no">03 — ESSAY</span>
+        <div class="t">Against the Infinite Scroll</div>
+        <div class="c">Criticism / 11 min</div>
+      </a>
+
+      <a class="item" href="#">
+        <span class="no">04 — VISUAL</span>
+        <div class="t">Brutalism, Reread</div>
+        <div class="c">Portfolio / 6 min</div>
+      </a>
+
+      <a class="item" href="#">
+        <span class="no">05 — DISPATCH</span>
+        <div class="t">Notes From a Dead Mall</div>
+        <div class="c">Field / 9 min</div>
+      </a>
+
+      <div class="promo">
+        <div class="pk">★ Members Only</div>
+        <div class="pt">Print + Digital from €9 / Quarter</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="track">
+      <span>NOW READING — NOISE IS THE NEW SILENCE</span>
+      <span class="b">●</span>
+      <span>SUBSCRIBE FOR ISSUE 15 — SPRING 2026</span>
+      <span class="b">●</span>
+      <span>THE MARGIN / CULTURE QUARTERLY</span>
+      <span class="b">●</span>
+      <span>NOW READING — NOISE IS THE NEW SILENCE</span>
+      <span class="b">●</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

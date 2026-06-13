@@ -5,5 +5,8 @@
 # OS
 .DS_Store
 
+# Editors
+.obsidian/
+
 # Node (for any site builds done in subdirectories later)
 node_modules/

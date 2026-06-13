@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honeyhaus — Slow Living Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF7F0;
+    --bg-2:#F6EFE2;
+    --ink:#332B26;
+    --ink-soft:#6E6056;
+    --honey:#D79A45;
+    --honey-deep:#BE7E2E;
+    --sage:#8F9C7D;
+    --sage-deep:#6E7C5C;
+    --clay:#C98B6B;
+    --sand:#EBDDC6;
+    --cream:#FFFCF6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background:#EDE3D2;
+  }
+  .frame{
+    position:relative;
+    width:1280px;
+    height:800px;
+    overflow:hidden;
+    background:
+      radial-gradient(820px 640px at 22% 14%, rgba(215,154,69,0.32), rgba(215,154,69,0) 60%),
+      radial-gradient(900px 720px at 86% 84%, rgba(143,156,125,0.40), rgba(143,156,125,0) 60%),
+      radial-gradient(700px 560px at 70% 26%, rgba(255,252,246,0.85), rgba(255,252,246,0) 70%),
+      linear-gradient(155deg, var(--bg) 0%, var(--bg-2) 100%);
+    color:var(--ink);
+  }
+
+  /* Ambient floating organic shapes */
+  .blob{position:absolute;}
+  .blob-1{
+    width:600px;height:560px;
+    top:-180px;left:-130px;
+    background:radial-gradient(circle at 38% 36%, #E7C892, #D7A65A 72%);
+    border-radius:56% 44% 52% 48% / 50% 56% 44% 50%;
+    opacity:0.40;
+    filter:blur(2px);
+  }
+  .blob-2{
+    width:440px;height:440px;
+    bottom:-150px;right:-110px;
+    background:radial-gradient(circle at 42% 40%, #A6B38C, #7E8D69 72%);
+    border-radius:46% 54% 43% 57% / 57% 44% 56% 43%;
+    opacity:0.45;
+    filter:blur(3px);
+  }
+  .blob-3{
+    width:150px;height:150px;
+    top:120px;right:30%;
+    background:radial-gradient(circle at 40% 35%, #F0DCBC, #E0C49B 78%);
+    border-radius:50%;
+    opacity:0.6;
+    filter:blur(1px);
+  }
+
+  .grain{
+    position:absolute;inset:0;
+    opacity:0.055;
+    pointer-events:none;
+    mix-blend-mode:multiply;
+  }
+
+  /* Nav */
+  .nav{
+    position:absolute;top:0;left:0;right:0;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:36px 70px;
+    z-index:6;
+  }
+  .brand{
+    display:flex;align-items:center;gap:13px;
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:600;font-size:23px;letter-spacing:-0.012em;color:var(--ink);
+  }
+  .brand .mark{
+    width:32px;height:32px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 35% 30%, #EBC079, var(--honey-deep) 70%);
+    position:relative;
+    box-shadow:0 6px 18px rgba(190,126,46,0.22);
+  }
+  .brand .mark::after{
+    content:"";position:absolute;inset:9px;
+    border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #FBF1DC, #E8CF9F);
+  }
+  .nav-links{display:flex;align-items:center;gap:40px;}
+  .nav-links a{text-decoration:none;color:var(--ink-soft);font-size:15px;font-weight:500}
+  .nav-cta{
+    padding:11px 24px;border-radius:30px;
+    background:var(--ink);color:#FBF3E6;
+    font-size:14px;font-weight:600;
+    box-shadow:0 14px 30px rgba(51,43,38,0.18);
+  }
+
+  /* Centered hero layout */
+  .hero{
+    position:absolute;
+    top:172px;left:50%;transform:translateX(-50%);
+    width:760px;text-align:center;
+    z-index:5;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:9px 18px;
+    background:rgba(255,252,246,0.7);
+    border:1px solid rgba(51,43,38,0.08);
+    border-radius:30px;
+    font-size:13px;font-weight:600;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--honey-deep);
+    box-shadow:0 12px 30px rgba(51,43,38,0.05);
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--sage-deep)}
+  h1{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:500;
+    font-size:80px;line-height:1.02;
+    letter-spacing:-0.025em;
+    margin:28px 0 0;color:var(--ink);
+  }
+  h1 em{font-style:italic;font-weight:400;color:var(--sage-deep)}
+  .lead{
+    margin:28px auto 0;
+    font-size:18.5px;line-height:1.7;
+    color:var(--ink-soft);max-width:520px;
+  }
+  .cta-row{
+    display:flex;align-items:center;justify-content:center;gap:18px;
+    margin-top:40px;
+  }
+  .btn-primary{
+    padding:18px 38px;border-radius:34px;
+    background:linear-gradient(135deg, var(--honey) 0%, var(--honey-deep) 100%);
+    color:#FFF8EC;font-size:16px;font-weight:600;
+    box-shadow:0 24px 46px rgba(190,126,46,0.26), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .btn-ghost{
+    padding:18px 30px;border-radius:34px;
+    background:rgba(255,252,246,0.75);
+    border:1px solid rgba(51,43,38,0.10);
+    color:var(--ink);font-size:16px;font-weight:600;
+    box-shadow:0 14px 30px rgba(51,43,38,0.06);
+  }
+  .subnote{
+    margin-top:24px;font-size:13.5px;color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;gap:9px;
+  }
+  .subnote .av{display:flex}
+  .subnote .av span{
+    width:26px;height:26px;border-radius:50%;margin-left:-8px;
+    border:2px solid var(--cream);
+  }
+  .subnote .av span:nth-child(1){background:radial-gradient(circle at 35% 30%,#E7C892,#C98B6B);margin-left:0}
+  .subnote .av span:nth-child(2){background:radial-gradient(circle at 35% 30%,#A6B38C,#7E8D69)}
+  .subnote .av span:nth-child(3){background:radial-gradient(circle at 35% 30%,#E0B98A,#BE7E2E)}
+  .subnote b{color:var(--ink);font-weight:600}
+
+  /* Bottom organic shelf of cards */
+  .shelf{
+    position:absolute;
+    bottom:-30px;left:50%;transform:translateX(-50%);
+    display:flex;gap:26px;align-items:flex-end;
+    z-index:4;
+  }
+  .ocard{
+    width:236px;height:200px;
+    border-radius:34px;
+    position:relative;overflow:hidden;
+    box-shadow:0 38px 70px rgba(120,90,50,0.14), inset 0 1px 0 rgba(255,255,255,0.4);
+    border:1px solid rgba(255,255,255,0.5);
+  }
+  .ocard .tag{
+    position:absolute;top:18px;left:18px;
+    padding:7px 14px;border-radius:22px;
+    background:rgba(255,252,246,0.85);
+    font-size:12.5px;font-weight:600;color:var(--ink);
+  }
+  .ocard .cap{
+    position:absolute;left:20px;right:20px;bottom:18px;
+    color:#FFF8EC;
+  }
+  .ocard .cap .t{font-family:"Fraunces",serif;font-weight:500;font-size:21px;line-height:1.15}
+  .ocard .cap .s{font-size:12.5px;opacity:0.85;margin-top:3px}
+  .ocard.tall{height:248px}
+  .ocard.c1{
+    background:linear-gradient(160deg, #E7C892 0%, #C98B6B 100%);
+  }
+  .ocard.c2{
+    background:linear-gradient(160deg, #A6B38C 0%, #6E7C5C 100%);
+  }
+  .ocard.c3{
+    background:linear-gradient(160deg, #E5B47A 0%, #BE7E2E 100%);
+  }
+  .ocard.c4{
+    background:linear-gradient(160deg, #D8C7AC 0%, #B79E78 100%);
+  }
+  /* decorative soft circle inside each card */
+  .ocard .orb{
+    position:absolute;width:160px;height:160px;border-radius:50%;
+    top:-40px;right:-40px;
+    background:radial-gradient(circle at 40% 40%, rgba(255,255,255,0.45), rgba(255,255,255,0) 65%);
+  }
+
+  /* small floating leaf accents */
+  .leaf{
+    position:absolute;z-index:5;
+    background:radial-gradient(circle at 40% 35%, #9DAB83, #788A5F 75%);
+    border-radius:0 80% 0 80%;
+    box-shadow:0 16px 30px rgba(110,124,92,0.20);
+  }
+  .leaf.l1{width:88px;height:88px;top:300px;left:150px;transform:rotate(-22deg);opacity:0.9}
+  .leaf.l2{width:60px;height:60px;top:200px;right:170px;transform:rotate(150deg);opacity:0.85}
+
+  /* floating rating pill */
+  .float-pill{
+    position:absolute;top:330px;right:120px;
+    display:flex;align-items:center;gap:11px;
+    padding:13px 18px;
+    background:rgba(255,252,246,0.92);
+    border-radius:24px;
+    box-shadow:0 26px 50px rgba(51,43,38,0.10);
+    z-index:6;border:1px solid rgba(255,255,255,0.6);
+  }
+  .float-pill .ic{
+    width:36px;height:36px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #EBC079, var(--honey-deep));
+    display:flex;align-items:center;justify-content:center;color:#FFF8EC;font-size:16px;
+  }
+  .float-pill .ft{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
+  .float-pill .ft b{display:block;color:var(--ink);font-size:13.5px;font-weight:600}
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span>Honeyhaus</div>
+      <div class="nav-links">
+        <a href="#">Workshops</a>
+        <a href="#">The Studio</a>
+        <a href="#">Stories</a>
+        <a href="#">Visit</a>
+        <span class="nav-cta">Reserve a seat</span>
+      </div>
+    </nav>
+
+    <div class="leaf l1"></div>
+    <div class="leaf l2"></div>
+
+    <div class="hero">
+      <span class="eyebrow"><span class="dot"></span>A slow-living studio</span>
+      <h1>Make a little<br><em>room to slow</em> down.</h1>
+      <p class="lead">Hands-on workshops in ceramics, fermentation, and natural dye — small gatherings made to help you unhurry, one warm afternoon at a time.</p>
+      <div class="cta-row">
+        <span class="btn-primary">Find a workshop</span>
+        <span class="btn-ghost">Visit the studio</span>
+      </div>
+      <div class="subnote">
+        <span class="av"><span></span><span></span><span></span></span>
+        <span>Joined by <b>1,800+</b> slow-living makers this season</span>
+      </div>
+    </div>
+
+    <div class="float-pill">
+      <span class="ic">✦</span>
+      <div class="ft"><b>Next gathering</b>Sat · Sourdough &amp; Tea</div>
+    </div>
+
+    <div class="shelf">
+      <div class="ocard c1">
+        <div class="orb"></div>
+        <span class="tag">Ceramics</span>
+        <div class="cap"><div class="t">Throw &amp; Trim</div><div class="s">Wheel basics · 3 hrs</div></div>
+      </div>
+      <div class="ocard c2 tall">
+        <div class="orb"></div>
+        <span class="tag">Botanicals</span>
+        <div class="cap"><div class="t">Natural Dye</div><div class="s">Indigo &amp; madder · 4 hrs</div></div>
+      </div>
+      <div class="ocard c3 tall">
+        <div class="orb"></div>
+        <span class="tag">Kitchen</span>
+        <div class="cap"><div class="t">Wild Ferments</div><div class="s">Kraut &amp; kimchi · 2 hrs</div></div>
+      </div>
+      <div class="ocard c4">
+        <div class="orb"></div>
+        <span class="tag">Fibre</span>
+        <div class="cap"><div class="t">Hand Weaving</div><div class="s">Frame loom · 3 hrs</div></div>
+      </div>
+    </div>
+
+    <svg class="grain" xmlns="http://www.w3.org/2000/svg">
+      <filter id="grainFilter2"><feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#grainFilter2)"/>
+    </svg>
+  </div>
+</body>
+</html>

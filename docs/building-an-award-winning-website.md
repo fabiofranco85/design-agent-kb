@@ -60,7 +60,8 @@ ready makes stage 1 one-shot:
 - **Mode:** `create` (from scratch) · `recreate` (reverse-engineer a reference site) · `modify`
   (evolve an existing system).
 - **Archetype leaning** (or let it recommend): brutalist-editorial, immersive-3D,
-  kinetic-minimal, retro-futurist, soft-organic, luxe-cinematic.
+  kinetic-minimal, retro-futurist, soft-organic, luxe-cinematic. *(See rendered examples of each
+  in [archetypes/](archetypes/) to pick one.)*
 - **Motion personality:** `snappy` (150–350 ms) · `fluid` (400–800 ms) · `cinematic` (600–1200 ms).
 - **WebGL:** yes (and where) / no.
 - **Audience & tone**, **brand constraints** (existing colors/fonts/logo, or "none"),

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadence — Treasury for modern teams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0c0e;
+    --panel:#121316;
+    --line:rgba(255,255,255,.08);
+    --line-soft:rgba(255,255,255,.05);
+    --text:#f3f3f1;
+    --muted:#85868a;
+    --dim:#5a5b5f;
+    --accent:#c6f24e;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .frame{
+    position:relative;
+    width:1280px;
+    height:800px;
+    overflow:hidden;
+    background:var(--bg);
+    color:var(--text);
+  }
+
+  /* subtle radial vignette — flat, no texture */
+  .frame::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 90% at 50% -10%,rgba(198,242,78,.06) 0%,transparent 42%);
+    pointer-events:none;
+  }
+
+  /* faint vertical guides */
+  .guide{position:absolute;top:0;bottom:0;width:1px;background:var(--line-soft)}
+  .guide.l{left:96px}
+  .guide.r{right:96px}
+
+  /* nav */
+  .nav{
+    position:absolute;top:0;left:96px;right:96px;height:96px;
+    display:flex;align-items:center;justify-content:space-between;
+    z-index:2;
+  }
+  .brand{
+    display:flex;align-items:center;gap:11px;
+    font-weight:500;font-size:16px;letter-spacing:-0.02em;
+  }
+  .mark{
+    width:11px;height:22px;border-radius:3px;
+    background:var(--accent);
+    box-shadow:14px 0 0 -2px var(--accent),inset 0 0 0 0 transparent;
+    position:relative;
+  }
+  .mark::after{
+    content:"";position:absolute;left:8px;top:5px;width:6px;height:12px;
+    border-radius:2px;background:var(--bg);
+  }
+  .nav-links{
+    display:flex;align-items:center;gap:38px;
+    font-weight:400;font-size:14.5px;color:var(--muted);letter-spacing:-0.01em;
+  }
+  .nav-cta{
+    font-weight:500;font-size:14px;color:var(--bg);
+    background:var(--text);
+    padding:9px 18px;border-radius:8px;letter-spacing:-0.01em;
+  }
+
+  /* centered hero stack */
+  .hero{
+    position:absolute;left:0;right:0;top:184px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    z-index:2;
+  }
+  .pill{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:400;letter-spacing:-0.005em;color:var(--muted);
+    border:1px solid var(--line);border-radius:100px;
+    padding:7px 8px 7px 8px;
+    background:rgba(255,255,255,.02);
+  }
+  .pill .tag{
+    background:var(--accent);color:var(--bg);font-weight:600;font-size:11px;
+    letter-spacing:0.02em;border-radius:100px;padding:3px 9px;
+  }
+  .pill .arr{color:var(--dim)}
+
+  h1{
+    margin:38px 0 0;
+    font-weight:200;
+    font-size:80px;
+    line-height:1.0;
+    letter-spacing:-0.045em;
+    max-width:880px;
+  }
+  h1 .strong{font-weight:500}
+  /* static motion hint: one word ghosted as a stagger-reveal trail */
+  h1 .kinetic{
+    position:relative;display:inline-block;font-weight:500;
+  }
+  h1 .kinetic .trail{
+    position:absolute;left:0;top:0;white-space:nowrap;
+    color:transparent;
+    background:linear-gradient(90deg,rgba(243,243,241,.22),rgba(243,243,241,0) 70%);
+    -webkit-background-clip:text;background-clip:text;
+    transform:translateX(-14px);
+    filter:blur(1px);
+    pointer-events:none;
+  }
+  h1 .accent{color:var(--accent);font-weight:500}
+
+  .sub{
+    margin-top:30px;
+    max-width:620px;
+    font-size:18px;
+    line-height:1.55;
+    font-weight:300;
+    color:#b3b4b6;
+    letter-spacing:-0.01em;
+  }
+
+  .actions{
+    margin-top:42px;display:flex;align-items:center;gap:16px;
+  }
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--accent);color:#0a0b06;
+    font-weight:600;font-size:15px;letter-spacing:-0.01em;
+    padding:14px 24px;border-radius:10px;
+  }
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:9px;
+    color:var(--text);font-weight:500;font-size:15px;letter-spacing:-0.01em;
+    padding:14px 22px;border-radius:10px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.02);
+  }
+  .btn-ghost .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  /* precise metric strip — 1-step elevation panel */
+  .metrics{
+    position:absolute;left:96px;right:96px;bottom:72px;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    z-index:2;
+  }
+  .metrics .cell{
+    padding:26px 30px;border-right:1px solid var(--line);
+  }
+  .metrics .cell:last-child{border-right:0}
+  .metrics .k{font-size:12px;letter-spacing:0.04em;color:var(--dim);text-transform:uppercase}
+  .metrics .v{
+    margin-top:10px;font-size:30px;font-weight:300;letter-spacing:-0.03em;
+    display:flex;align-items:baseline;gap:8px;
+  }
+  .metrics .v small{font-size:14px;font-weight:400;color:var(--muted);letter-spacing:-0.01em}
+  .metrics .v .up{font-size:13px;color:var(--accent);font-weight:500}
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="guide l"></div>
+    <div class="guide r"></div>
+
+    <nav class="nav">
+      <div class="brand"><span class="mark"></span>Cadence</div>
+      <div class="nav-links">
+        <span>Product</span>
+        <span>Treasury</span>
+        <span>Customers</span>
+        <span>Pricing</span>
+      </div>
+      <div class="nav-cta">Get started</div>
+    </nav>
+
+    <section class="hero">
+      <div class="pill"><span class="tag">NEW</span>Yield routing now live <span class="arr">→</span></div>
+      <h1>Treasury that moves<br>at the <span class="kinetic">speed<span class="trail">speed</span></span> of <span class="accent">capital</span>.</h1>
+      <p class="sub">Cadence gives finance teams one calm surface to sweep balances, route idle cash to yield, and reconcile every movement — in real time, across every account.</p>
+      <div class="actions">
+        <a class="btn-primary">Open an account →</a>
+        <a class="btn-ghost"><span class="dot"></span>Talk to treasury</a>
+      </div>
+    </section>
+
+    <div class="metrics">
+      <div class="cell">
+        <div class="k">Assets routed</div>
+        <div class="v">$4.2<small>B</small></div>
+      </div>
+      <div class="cell">
+        <div class="k">Blended yield</div>
+        <div class="v">5.1<small>%</small> <span class="up">↑ 0.3</span></div>
+      </div>
+      <div class="cell">
+        <div class="k">Settlement</div>
+        <div class="v">T+0 <small>real-time</small></div>
+      </div>
+      <div class="cell">
+        <div class="k">Teams onboard</div>
+        <div class="v">3,800<small>+</small></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

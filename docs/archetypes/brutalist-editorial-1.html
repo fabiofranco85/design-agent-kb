@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>GRTSK — Type Foundry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;
+    --paper:#F0EEE9;
+    --accent:#FF3B00;
+    --hair:rgba(10,10,10,.16);
+    --grotesk:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#777;}
+  .frame{
+    position:relative;width:1280px;height:800px;overflow:hidden;
+    background:var(--paper);color:var(--ink);
+    font-family:var(--grotesk);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── Exposed 12-col grid overlay ── */
+  .grid-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;
+    padding:0 56px;}
+  .grid-overlay .cols{display:grid;grid-template-columns:repeat(12,1fr);
+    height:100%;gap:0;}
+  .grid-overlay .cols span{border-left:1px solid var(--hair);height:100%;}
+  .grid-overlay .cols span:last-child{border-right:1px solid var(--hair);}
+
+  /* ── Nav ── */
+  .nav{position:relative;z-index:5;display:flex;align-items:stretch;
+    border-bottom:2px solid var(--ink);height:64px;}
+  .nav .brand{display:flex;align-items:center;gap:12px;padding:0 24px 0 56px;
+    border-right:1px solid var(--ink);}
+  .nav .brand .mark{font-family:var(--grotesk);font-weight:900;font-size:22px;
+    letter-spacing:-.04em;}
+  .nav .brand .reg{font-family:var(--mono);font-size:10px;
+    transform:translateY(-7px);}
+  .nav .links{display:flex;align-items:center;flex:1;}
+  .nav .links a{font-family:var(--mono);font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;text-decoration:none;
+    color:var(--ink);padding:0 22px;height:100%;display:flex;align-items:center;
+    border-right:1px solid var(--hair);}
+  .nav .links a.spacer{flex:1;border-right:1px solid var(--hair);}
+  .nav .meta{display:flex;align-items:center;font-family:var(--mono);
+    font-size:11px;padding:0 56px 0 22px;letter-spacing:.04em;}
+  .nav .cart{background:var(--accent);color:var(--paper);font-weight:700;
+    padding:0 24px;display:flex;align-items:center;font-family:var(--mono);
+    font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+    border-left:1px solid var(--ink);}
+
+  /* ── Sub bar / specimen ticker ── */
+  .subbar{position:relative;z-index:5;display:flex;align-items:center;
+    height:34px;border-bottom:1px solid var(--ink);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;}
+  .subbar .seg{padding:0 22px 0 56px;border-right:1px solid var(--hair);
+    height:100%;display:flex;align-items:center;}
+  .subbar .seg.r{padding:0 56px 0 22px;margin-left:auto;border-right:0;
+    border-left:1px solid var(--hair);}
+  .subbar .dot{display:inline-block;width:7px;height:7px;background:var(--accent);
+    margin-right:9px;}
+
+  /* ── Hero body ── */
+  .hero{position:relative;z-index:5;height:calc(800px - 64px - 34px - 46px);
+    padding:0 56px;}
+  .display-wrap{position:relative;padding-top:30px;}
+
+  .eyebrow{display:flex;align-items:baseline;gap:18px;
+    font-family:var(--mono);font-size:11px;text-transform:uppercase;
+    letter-spacing:.14em;margin-bottom:6px;}
+  .eyebrow .idx{color:var(--accent);font-weight:700;}
+
+  .display{font-family:var(--grotesk);font-weight:900;
+    font-size:clamp(96px,12vw,158px);line-height:.85;
+    letter-spacing:-.035em;text-transform:uppercase;margin:0;}
+  .display .l{display:block;position:relative;}
+  /* ghosted SplitText reveal lines */
+  .display .l.ghost::after{content:attr(data-line);position:absolute;
+    left:0;top:7px;color:transparent;-webkit-text-stroke:1px rgba(10,10,10,.18);
+    z-index:-1;}
+  .display .accentword{color:var(--accent);}
+  .display .l3{position:relative;}
+  .display .l3 .slash{font-family:var(--mono);font-weight:700;
+    font-size:.34em;vertical-align:.42em;color:var(--accent);
+    letter-spacing:0;margin-left:14px;}
+
+  /* lower band: supporting copy + cta + specimen block */
+  .lower{position:absolute;left:56px;right:56px;bottom:0;z-index:6;
+    display:grid;grid-template-columns:5fr 4fr 3fr;background:var(--paper);
+    border-top:2px solid var(--ink);}
+  .lower>div{padding:20px 26px 0;min-height:128px;}
+  .lower .c1{padding-left:0;border-right:1px solid var(--hair);}
+  .lower .c2{border-right:1px solid var(--hair);}
+  .lower .c3{padding-right:0;}
+
+  .lead{font-family:var(--grotesk);font-weight:600;font-size:16.5px;
+    line-height:1.32;max-width:30ch;}
+  .lead b{color:var(--accent);font-weight:700;}
+
+  .meta-list{font-family:var(--mono);font-size:11px;line-height:1.9;
+    letter-spacing:.02em;}
+  .meta-list .row{display:flex;justify-content:space-between;
+    border-bottom:1px dotted var(--hair);padding:1px 0;}
+  .meta-list .row span:first-child{color:rgba(10,10,10,.55);}
+
+  .cta-wrap{display:flex;flex-direction:column;gap:14px;}
+  .cta{display:inline-flex;align-items:center;justify-content:space-between;
+    background:var(--ink);color:var(--paper);text-decoration:none;
+    font-family:var(--mono);font-size:13px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;padding:15px 18px;
+    border:2px solid var(--ink);}
+  .cta .arr{color:var(--accent);font-size:16px;}
+  .cta.ghost{background:transparent;color:var(--ink);}
+  .cta.ghost .arr{color:var(--ink);}
+
+  /* big specimen glyph, intentional asymmetry */
+  .glyph{position:absolute;z-index:4;right:56px;top:78px;
+    width:300px;height:300px;border:2px solid var(--ink);
+    background:var(--accent);display:flex;align-items:center;
+    justify-content:center;overflow:hidden;}
+  .glyph .g{font-family:var(--grotesk);font-weight:900;font-size:330px;
+    color:var(--ink);line-height:1;transform:translateY(14px);
+    letter-spacing:-.05em;}
+  .glyph .tag{position:absolute;left:0;top:0;font-family:var(--mono);
+    font-size:9.5px;font-weight:700;background:var(--ink);color:var(--paper);
+    padding:4px 7px;letter-spacing:.06em;}
+  .glyph .pt{position:absolute;right:0;bottom:0;font-family:var(--mono);
+    font-size:9.5px;font-weight:700;background:var(--ink);color:var(--paper);
+    padding:4px 7px;letter-spacing:.06em;}
+
+  /* ── Marquee strip (motion artifact) ── */
+  .marquee{position:absolute;left:0;right:0;bottom:0;z-index:6;height:46px;
+    background:var(--ink);color:var(--paper);overflow:hidden;
+    display:flex;align-items:center;border-top:2px solid var(--ink);}
+  .marquee .track{display:flex;white-space:nowrap;font-family:var(--grotesk);
+    font-weight:900;font-size:21px;text-transform:uppercase;
+    letter-spacing:-.01em;}
+  .marquee .track span{padding:0 26px;display:inline-flex;align-items:center;}
+  .marquee .track .star{color:var(--accent);padding:0 18px;}
+
+  .crop{position:absolute;z-index:7;font-family:var(--mono);font-size:9px;
+    color:rgba(10,10,10,.4);letter-spacing:.05em;}
+  .crop.tl{left:8px;top:72px;}
+  .crop.bl{left:8px;bottom:54px;}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- exposed grid -->
+  <div class="grid-overlay"><div class="cols">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div></div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="brand">
+      <span class="mark">GRTSK<span class="reg">®</span></span>
+    </div>
+    <div class="links">
+      <a href="#">Typefaces</a>
+      <a href="#">In Use</a>
+      <a href="#">Custom</a>
+      <a href="#">About</a>
+      <a class="spacer"></a>
+      <a href="#">Trials</a>
+    </div>
+    <div class="cart">Cart / 02</div>
+  </nav>
+
+  <!-- SUBBAR -->
+  <div class="subbar">
+    <div class="seg"><span class="dot"></span>FOUNDRY EST. 2014 — ROTTERDAM (NL)</div>
+    <div class="seg">14 FAMILIES / 212 STYLES / VARIABLE</div>
+    <div class="seg r">NEW RELEASE → NEUE HALDEN GROTESK</div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="display-wrap">
+      <div class="eyebrow"><span class="idx">[ 001 ]</span><span>NEW DISPLAY FAMILY — VARIABLE WGHT 100–900</span></div>
+      <h1 class="display">
+        <span class="l ghost" data-line="LETTERS">LETTERS</span>
+        <span class="l ghost" data-line="WITH A">WITH A</span>
+        <span class="l l3"><span class="accentword">SPINE</span><span class="slash">// HALDEN GROTESK</span></span>
+      </h1>
+    </div>
+
+    <!-- specimen glyph block -->
+    <div class="glyph">
+      <span class="tag">U+0047</span>
+      <span class="g">G</span>
+      <span class="pt">184 PT</span>
+    </div>
+
+    <!-- lower band -->
+    <div class="lower">
+      <div class="c1">
+        <p class="lead">A grotesque drawn for editorial weight and screen tension. <b>Five widths, one variable axis</b>, tuned from caption to billboard.</p>
+      </div>
+      <div class="c2">
+        <div class="meta-list">
+          <div class="row"><span>FAMILY</span><span>HALDEN GROTESK</span></div>
+          <div class="row"><span>STYLES</span><span>54 + VARIABLE</span></div>
+          <div class="row"><span>LANGUAGES</span><span>219 LATIN</span></div>
+          <div class="row"><span>FORMATS</span><span>OTF · WOFF2 · TTF</span></div>
+          <div class="row"><span>LICENSE</span><span>DESKTOP / WEB</span></div>
+        </div>
+      </div>
+      <div class="c3">
+        <div class="cta-wrap">
+          <a class="cta" href="#">Buy Family<span class="arr">→</span></a>
+          <a class="cta ghost" href="#">Test in Browser<span class="arr">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="track">
+      <span>HALDEN GROTESK</span><span class="star">✳</span>
+      <span>AaBbCc 0123456789</span><span class="star">✳</span>
+      <span>WEIGHT · WIDTH · SLANT</span><span class="star">✳</span>
+      <span>HALDEN GROTESK</span><span class="star">✳</span>
+      <span>AaBbCc 0123456789</span><span class="star">✳</span>
+    </div>
+  </div>
+
+  <span class="crop tl">+ 56,128</span>
+  <span class="crop bl">+ 56,700</span>
+
+</div>
+</body>
+</html>

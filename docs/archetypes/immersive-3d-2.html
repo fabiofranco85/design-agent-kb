@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>PRISMA — Generative Brand Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1730;
+    --sans:"Space Grotesk","Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --ui:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#eef0f8}
+  .frame{
+    position:relative;width:1280px;height:800px;overflow:hidden;
+    background:
+      radial-gradient(130% 110% at 50% 0%, #fdfcff 0%, #eef0fb 45%, #e6e4f6 100%);
+    font-family:var(--sans);color:var(--ink);isolation:isolate;
+  }
+
+  /* ===================== SCENE ( >=60% ) ===================== */
+  .scene{position:absolute;inset:0;z-index:0}
+
+  /* Iridescent gradient mesh (soft, light) */
+  .mesh{position:absolute;inset:-12%;}
+  .mesh::before,.mesh::after{content:"";position:absolute;inset:0}
+  .mesh::before{
+    background:
+      radial-gradient(40% 46% at 28% 32%, rgba(255,178,225,.85) 0%, rgba(255,178,225,0) 60%),
+      radial-gradient(38% 44% at 74% 26%, rgba(168,210,255,.85) 0%, rgba(168,210,255,0) 62%),
+      radial-gradient(50% 54% at 62% 74%, rgba(190,255,224,.80) 0%, rgba(190,255,224,0) 60%),
+      radial-gradient(40% 44% at 20% 78%, rgba(214,194,255,.80) 0%, rgba(214,194,255,0) 60%);
+    filter:blur(36px) saturate(1.1);
+  }
+  .mesh::after{
+    background:
+      radial-gradient(30% 34% at 50% 50%, rgba(255,234,170,.55) 0%, rgba(255,234,170,0) 62%),
+      radial-gradient(26% 30% at 84% 60%, rgba(180,240,255,.6) 0%, rgba(180,240,255,0) 60%);
+    filter:blur(46px);mix-blend-mode:multiply;opacity:.5;
+  }
+
+  /* cursor-parallax hint: offset iridescent halos behind blob */
+  .parallax-glow{
+    position:absolute;left:52%;top:48%;width:720px;height:720px;transform:translate(-50%,-50%);
+    background:conic-gradient(from 0deg,
+      rgba(255,170,220,.55),rgba(170,200,255,.55),rgba(180,255,210,.55),
+      rgba(255,225,150,.55),rgba(255,170,220,.55));
+    filter:blur(60px);opacity:.7;border-radius:50%;
+  }
+  .parallax-glow.b{
+    left:calc(52% + 30px);top:calc(48% + 22px);
+    filter:blur(80px);opacity:.45;mix-blend-mode:screen;
+  }
+
+  /* perspective floor grid (light) */
+  .floor{
+    position:absolute;left:50%;bottom:-4%;width:2400px;height:520px;
+    transform:translateX(-50%) perspective(640px) rotateX(71deg);
+    transform-origin:50% 100%;
+    background-image:
+      linear-gradient(to right, rgba(120,110,180,.30) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(120,110,180,.30) 1px, transparent 1px);
+    background-size:60px 60px;
+    -webkit-mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.45) 40%, transparent 74%);
+    mask-image:linear-gradient(to top, #000 0%, rgba(0,0,0,.45) 40%, transparent 74%);
+    opacity:.7;
+  }
+
+  /* ===================== FAUX-3D SUBJECT: iridescent gradient blob + torus ===================== */
+  .object{position:absolute;left:52%;top:46%;width:560px;height:560px;
+    transform:translate(-50%,-50%);display:grid;place-items:center;}
+
+  /* chrome / iridescent blob via layered conic+radial, organic mask */
+  .blob{
+    position:absolute;width:380px;height:380px;
+    border-radius:62% 38% 55% 45% / 48% 56% 44% 52%;
+    background:
+      radial-gradient(34% 30% at 34% 28%, #ffffff 0%, rgba(255,255,255,0) 44%),
+      conic-gradient(from 210deg at 50% 50%,
+        #ffd5ec 0deg, #cdd6ff 70deg, #c4ffe4 140deg,
+        #fff0c2 210deg, #ffc6e6 285deg, #ffd5ec 360deg);
+    box-shadow:
+      0 30px 80px rgba(150,120,210,.30),
+      inset -28px -34px 70px rgba(120,90,180,.28),
+      inset 26px 24px 64px rgba(255,255,255,.7);
+    transform:rotate(-8deg);
+    filter:saturate(1.2);
+  }
+  .blob::after{ /* oily sheen */
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:conic-gradient(from 40deg at 60% 40%,
+      rgba(120,200,255,.0) 0deg, rgba(120,200,255,.5) 50deg,
+      rgba(255,140,210,.0) 120deg, rgba(180,255,200,.45) 220deg, rgba(120,200,255,0) 320deg);
+    mix-blend-mode:screen;opacity:.8;
+  }
+
+  /* wireframe torus rings around blob */
+  .ring{position:absolute;border-radius:50%;border:1.5px solid rgba(110,90,180,.34);}
+  .r1{width:470px;height:470px;transform:rotateX(72deg)}
+  .r2{width:470px;height:470px;transform:rotateX(72deg) rotateZ(58deg)}
+  .r3{width:470px;height:470px;transform:rotateX(72deg) rotateZ(116deg)}
+  .r4{width:512px;height:512px;transform:rotate(14deg);border-color:rgba(255,150,205,.30)}
+  .dots{
+    position:absolute;width:500px;height:500px;border-radius:50%;
+    transform:rotateX(70deg) rotateZ(30deg);
+    background:repeating-conic-gradient(from 0deg, rgba(120,150,255,.85) 0deg 1.2deg, rgba(120,150,255,0) 1.2deg 8deg);
+    -webkit-mask:radial-gradient(circle, transparent 0 49%, #000 49.4% 50.2%, transparent 50.6%);
+    mask:radial-gradient(circle, transparent 0 49%, #000 49.4% 50.2%, transparent 50.6%);
+    opacity:.6;filter:drop-shadow(0 0 5px rgba(150,160,255,.5));
+  }
+
+  /* fine sparkle dust */
+  .stars{position:absolute;inset:0;
+    background-image:
+      radial-gradient(1.4px 1.4px at 16% 26%, rgba(255,255,255,.95), transparent 60%),
+      radial-gradient(1.2px 1.2px at 80% 20%, rgba(255,255,255,.9), transparent 60%),
+      radial-gradient(1.5px 1.5px at 68% 64%, rgba(255,255,255,.85), transparent 60%),
+      radial-gradient(1px 1px at 34% 80%, rgba(255,255,255,.8), transparent 60%),
+      radial-gradient(1.2px 1.2px at 90% 72%, rgba(255,255,255,.8), transparent 60%);
+    opacity:.8;}
+
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 100% at 50% 42%, transparent 58%, rgba(150,140,200,.22) 100%);}
+
+  /* ===================== UI LAYER ===================== */
+  .ui{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:space-between;
+    padding:30px 56px 42px;}
+
+  nav{display:flex;align-items:center;justify-content:space-between;font-family:var(--ui);}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--sans);font-weight:700;font-size:19px;letter-spacing:.14em;color:#231f3d;}
+  .brand .glyph{width:26px;height:26px;border-radius:50%;
+    background:conic-gradient(from 0deg,#ffb2e1,#a8d2ff,#beffe0,#ffeaaa,#ffb2e1);
+    box-shadow:0 4px 16px rgba(160,130,220,.45);}
+  .nav-links{display:flex;gap:34px;font-size:14.5px;color:rgba(40,34,70,.74);font-weight:500;}
+  .nav-pill{display:flex;align-items:center;gap:30px;padding:9px 22px;border-radius:999px;
+    background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(12px);
+    box-shadow:0 6px 24px rgba(150,130,210,.16);}
+  .cta{font-family:var(--ui);font-size:14px;font-weight:600;padding:11px 22px;border-radius:999px;color:#fff;
+    background:linear-gradient(180deg,#5b4bd6,#3f2fb0);box-shadow:0 8px 22px rgba(79,47,176,.32);}
+
+  .hero-copy{max-width:900px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--ui);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:#4a3f7a;padding:7px 15px;border-radius:999px;
+    background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);backdrop-filter:blur(8px);margin-bottom:22px;}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(#ff8fc7,#7aa8ff);box-shadow:0 0 8px rgba(255,143,199,.8);}
+  h1{margin:0;font-weight:600;font-size:clamp(56px,7.4vw,98px);line-height:.95;letter-spacing:-.03em;color:#1c1838;}
+  h1 .grad{background:linear-gradient(100deg,#e0529c 0%,#7c5cf0 48%,#2fb4d6 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{margin:24px 0 0;max-width:500px;font-family:var(--ui);font-size:16.5px;line-height:1.55;color:rgba(40,34,70,.74);font-weight:400;}
+  .meta{display:flex;align-items:center;gap:24px;margin-top:30px;font-family:var(--ui);font-size:13px;color:rgba(40,34,70,.58);letter-spacing:.03em;}
+  .meta .tag b{color:#231f3d;font-weight:600;}
+  .meta .bar{width:1px;height:26px;background:rgba(60,50,110,.18);}
+
+  .scrollcue{position:absolute;right:56px;bottom:42px;z-index:6;display:flex;align-items:center;gap:11px;
+    font-family:var(--ui);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:rgba(60,50,110,.55);
+    writing-mode:vertical-rl;}
+  .scrollcue .ln{width:1px;height:54px;background:linear-gradient(#7c5cf0,transparent);}
+</style>
+</head>
+<body>
+  <div class="frame">
+    <!-- SCENE -->
+    <div class="scene">
+      <div class="mesh"></div>
+      <div class="parallax-glow"></div>
+      <div class="parallax-glow b"></div>
+      <div class="floor"></div>
+      <div class="stars"></div>
+
+      <div class="object">
+        <div class="ring r4"></div>
+        <div class="blob"></div>
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="dots"></div>
+      </div>
+      <div class="vignette"></div>
+    </div>
+
+    <!-- UI -->
+    <div class="ui">
+      <nav>
+        <div class="brand"><span class="glyph"></span>PRISMA</div>
+        <div class="nav-pill nav-links">
+          <span>Work</span><span>Method</span><span>Generative</span><span>Lab</span>
+        </div>
+        <div class="cta">Start a Project</div>
+      </nav>
+
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span>Generative Brand Studio</div>
+        <h1>Identities that<br><span class="grad">shift and breathe.</span></h1>
+        <p class="sub">We craft living brand systems — code, color, and form that generate infinite expressions from a single seed.</p>
+        <div class="meta">
+          <div class="tag"><b>Awwwards</b> Site of the Year ’25</div>
+          <div class="bar"></div>
+          <div class="tag"><b>40+</b> generative identities shipped</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scrollcue"><span class="ln"></span>Scroll to explore</div>
+  </div>
+</body>
+</html>
